@@ -1,4 +1,4 @@
-sakuratataki
+sayokotataki
 ============
 
-さくらたたき
+さよこたたき

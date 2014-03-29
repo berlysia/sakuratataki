@@ -79,7 +79,7 @@ function Sayoko() {
 
   // ピクセルを取れないので適当な当たり判定
   bmp.hitArea = new createjs.Shape();
-  bmp.hitArea.graphics.beginFill('black').rect(40, 100, 400, 402);
+  bmp.hitArea.graphics.beginFill('black').rect(60, 80, 500, 420);
 
   // まんなか下端が中心
   bmp.x = bmp.width/2;

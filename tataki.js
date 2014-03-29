@@ -5,9 +5,9 @@ Hole.prototype = new createjs.Container();
 function Hole() {
   createjs.Container.call(this);
 
-  this.width = 480;
-  this.height = 502;
-  this.holeH = 80;
+  this.width = 640;
+  this.height = 832;
+  this.holeH = 120;
 
   var hole = new createjs.Shape();
   this.addChild(hole);
@@ -15,23 +15,23 @@ function Hole() {
 }
 
 // 穴にもぐらを入れる
-Hole.prototype.addSakura = function() {
-  var sakura = this.sakura = new Sakura();
-  this.addChild(sakura);
-  sakura.y = 0;
+Hole.prototype.addSayoko = function() {
+  var sayoko = this.sayoko = new Sayoko();
+  this.addChild(sayoko);
+  sayoko.y = 0;
 
   // もぐら絵の下端を穴に沿って切り抜く
-  sakura.mask = new createjs.Shape();
-  sakura.mask.graphics
-    .rect(0, -sakura.height, sakura.width, sakura.height)
+  sayoko.mask = new createjs.Shape();
+  sayoko.mask.graphics
+    .rect(0, -sayoko.height, sayoko.width, sayoko.height)
     .drawEllipse(0, -this.holeH/2, this.width, this.holeH);
 
   // もぐらを叩いた
   var hole = this;
-  sakura.on('click', function(e) {
+  sayoko.on('click', function(e) {
     hole.poka(function() {
       setTimeout(function() {
-        hole.removeSakura();
+        hole.removeSayoko();
         hole.nyoki();
       }, 1000);
     });
@@ -39,26 +39,26 @@ Hole.prototype.addSakura = function() {
 }
 
 // もぐらを取り除く
-Hole.prototype.removeSakura = function() {
-  this.removeChild(this.sakura);
-  delete this.sakura;
+Hole.prototype.removeSayoko = function() {
+  this.removeChild(this.sayoko);
+  delete this.sayoko;
 }
 
 // ニョキ
 Hole.prototype.nyoki = function() {
-  if (this.sakura) return; // すでにいたらやめる
+  if (this.sayoko) return; // すでにいたらやめる
 
-  this.addSakura();
+  this.addSayoko();
 
-  this.sakura.y = this.sakura.height;
-  createjs.Tween.get(this.sakura)
-    .to({y: 80}, 1000, createjs.Ease.backOut);
+  this.sayoko.y = this.sayoko.height;
+  createjs.Tween.get(this.sayoko)
+    .to({y: 200}, 1000, createjs.Ease.backOut);
 }
 
 // ポカ
 Hole.prototype.poka = function(callback) {
   if (!callback) callback = function(){}
-  var s = this.sakura;
+  var s = this.sayoko;
   createjs.Tween.removeTweens(s);
   createjs.Tween.get(s)
     .to({scaleX: 1.2, scaleY: 0.8}, 180, createjs.Ease.sineOut)
@@ -68,14 +68,14 @@ Hole.prototype.poka = function(callback) {
 }
 
 // もぐら
-function Sakura() {
+function Sayoko() {
   var ids = IMAGE_IDS;
-  var url = 'http://125.6.169.35/idolmaster/image_sp/card/quest/'+
-    ids[Math.floor(Math.random()*ids.length)] + '.png';
+  var url = 'http://m.ip.bn765.com/'+
+    ids[Math.floor(Math.random()*ids.length)];
 
   var bmp = new createjs.Bitmap(url);
-  bmp.width = 480;
-  bmp.height = 502;
+  bmp.width = 640;
+  bmp.height = 832;
 
   // ピクセルを取れないので適当な当たり判定
   bmp.hitArea = new createjs.Shape();
@@ -95,11 +95,11 @@ function Game(canvas) {
 
   var holes = this.holes = [];
   var positions = [
-    {x: 40, y: 240},
-    {x: 360, y: 240},
-    {x: 200, y: 360},
-    {x: 40, y: 480},
-    {x: 360, y: 480},
+    {x: 30, y: 350},
+    {x: 370, y: 350},
+    {x: 200, y: 490},
+    {x: 30, y: 610},
+    {x: 370, y: 610},
   ];
   this.holes = positions.map(function(p) {
     var hole = new Hole();
